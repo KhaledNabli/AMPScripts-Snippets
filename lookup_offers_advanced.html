@@ -1,0 +1,94 @@
+<script runat="server" language="ampscript">
+ /* Starting AMPscript */
+ /* Declaring variables */
+
+ var @dataExtName, @dataExtKeyColumn, @dataExtKey, @ResultSet, @RowCursor, @RowCount, @nothingToSee
+ set @dataExtName = "Aktionen"
+ set @dataExtKeyColumn = "Category_Preference"
+ set @dataExtKey = Category_Preference
+ set @nothingToSee = TRUE
+
+
+ /* Looking up matching profiles by subscriber */
+ /* Using lookup rows function to return a rowset of related profiles to use */
+ set @ResultSet = LookupOrderedRows(@dataExtName, 10, "Aktion_type DESC, Rabatt DESC, Aktionsstart, Aktionsende, Aktion_URL",  @dataExtKeyColumn,  @dataExtKey) 
+ set @RowCount = rowcount(@ResultSet)
+
+ if ( @RowCount >= 1) then
+  for @RowIndex = 1 to @RowCount DO
+   set @RowCursor = Row(@ResultSet, @RowIndex);
+   /* assign variables here */
+   set @v1 = Field(@RowCursor, "Gender_Fit")
+   set @v2 = Field(@RowCursor, "Aktions_Name")
+   set @v3 = Field(@RowCursor, "Rabatt")
+   set @v4 = Field(@RowCursor, "Aktion_Image")
+   set @v5_URL = Field(@RowCursor, "Aktion_URL")
+   set @v6_Start = Field(@RowCursor, "Aktionsstart")
+   set @v7_Ende = Field(@RowCursor, "Aktionsende")  
+  
+   /* check if offer is eligable */
+   IF ((INDEXOF(@v1, Gender) > 0)) THEN
+    SET @nothingToSee = FALSE
+</script>
+<!-- START Entry Template -->
+<br>
+<!-- content area -->
+<table align="center" border="0" cellpadding="0" cellspacing="0" class="tmp--container-padding" style="background-color:#ffffff;" width="600">
+ 
+  <tr>
+   <td align="center" class="tmp--full-width" style="padding:10px 0 10px 20px;" width="33.333%"><img class="photo" src="%%=v(@v4)=%%" style="display:block;" width="100%"></td>
+   <td align="center" class="tmp--full-width" style="padding:10px 0 10px 0;" width="66.666%">
+   <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+    
+     <tr>
+      <td align="left" style="color:#4f4f4f;font-family:Arial, sans-serif;font-size:16px;font-style:normal;font-weight:normal;line-height:20px;padding:20px;vertical-align:top;" width="100%"><span style="color:#4f4f4f;display:inline-block;font-family:Arial, sans-serif;font-size:18px;font-style:normal;font-weight:bold;padding:5px 0 10px 0;">Aktion: %%=v(@v2)=%% </span><br>
+      Unser Rabatt: <b>%%=v(@v3)=%%</b><br>
+      Aktionstart: %%=v(@v6_Start)=%%<br>
+      Aktionsende: %%=v(@@v6_Ende)=%%
+      <hr> <!-- ============================== --> <!-- CTA BTN --> <!-- ============================== -->
+      <table align="left" class="tmp--full-width" width="100%">
+       
+        <tr>
+         <td style="padding:20px 0 10px 0;"><a href="%%=v(@v5_URL)=%%" style="border-radius:3px;background-color:#7CB21D;border-top:12px solid #7CB21D;border-bottom:12px solid #7CB21D;border-right:18px solid #7CB21D;border-left:18px solid #7CB21D;color:#ffffff;display:inline-block;font-family:Arial, sans-serif;font-size:16px;font-style:normal;font-weight:normal;line-height:16px;text-align:center;text-decoration:none;" target="_blank">Aktion ansehen </a></td>
+        </tr>
+       
+      </table>
+      </td>
+     </tr>
+    
+   </table>
+   </td>
+  </tr>
+ 
+</table>
+<!-- end content area -->
+<br>
+<br>
+<br>
+<br>
+<!-- END Entry Template --><script runat="server" language="ampscript">
+   ENDIF
+  NEXT
+ endif
+ IF(@nothingToSee == TRUE) THEN 
+</script>
+<!-- START NO ENTRIES FOUND.... --><
+<table align="center" border="0" cellpadding="0" cellspacing="0" class="tmp--container" style="background-color:#ffffff;" width="600">
+ 
+  <tr>
+   <td align="left" style="color:#4f4f4f;font-family:Arial, sans-serif;font-size:16px;font-style:normal;font-weight:normal;line-height:20px;padding:20px;text-align:center;vertical-align:top;" width="100%"><span style="color:#4f4f4f;display:inline-block;font-family:Arial, sans-serif;font-size:18px;font-style:normal;font-weight:bold;padding:5px 0 10px 0;">Leider keine speziellen Aktionen für dich</span><br>
+   Vielleicht findest Du auf unserer Website Aktionen die Dich interessieren. Wir freuen uns auf deinen Besuch<!-- ============================== --><!-- CTA BTN --><!-- ============================== -->
+   <table align="center" class="tmp--full-width" width="100%">
+    
+     <tr>
+      <td align="center" style="padding:20px 0 10px 0;"><a href="http://www.limango.de/home/" style="border-radius:3px;background-color:#7CB21D;border-top:12px solid #7CB21D;border-bottom:12px solid #7CB21D;border-right:18px solid #7CB21D;border-left:18px solid #7CB21D;color:#ffffff;display:inline-block;font-family:Arial, sans-serif;font-size:16px;font-style:normal;font-weight:normal;line-height:16px;text-align:center;text-decoration:none;" target="_blank">Limango Aktionen direkt ansehen</a></td>
+     </tr>
+    
+   </table>
+   </td>
+  </tr>
+ </table>
+<!-- END NO ENTRIES WHERE FOUND.... -->
+<script runat="server" language="ampscript">
+ENDIF
+</script>
