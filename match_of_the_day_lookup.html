@@ -1,0 +1,90 @@
+<script runat="server" language="ampscript">
+ /* Starting AMPscript */
+ /* Declaring variables */
+ var @dataExtName, @dataExtKeyColumn, @dataExtKey, @ResultSet, @RowCursor, @RowCount, @nothingToSee
+
+
+ /* ENTER YOUR SETTINGS HERE */
+ set @dataExtName = "Lovoo - Match of Day"      /* Name of the Data Extension */
+ set @dataExtKeyColumn = "SubscriberKey"        /* Key Column of the Data Extension */
+ set @dataExtKey = SubscriberKey                /* Variable of Key */
+ set @maxEntries = 3                            /* Max Entries to read from Data Extension */
+ set @orderEntriesBy = "Match_Day DESC, Profil_Age ASC"
+
+
+
+ set @nothingToSee = TRUE
+
+
+ /* Looking up matching profiles by subscriber */
+ /* Using lookup rows function to return a rowset of related profiles to use */
+ set @ResultSet = LookupOrderedRows(@dataExtName, @maxEntries, @orderEntriesBy,  @dataExtKeyColumn,  @dataExtKey) 
+ set @RowCount = rowcount(@ResultSet)
+ if ( @RowCount >= 1) then
+  for @RowIndex = 1 to @RowCount DO
+   set @RowCursor = Row(@ResultSet, @RowIndex);
+ /* assign variables here */
+ set @v1 = Field(@RowCursor, "Match_Day")
+ set @v2 = Field(@RowCursor, "Profil_Name")
+ set @v3 = Field(@RowCursor, "Profil_Age")
+ set @v4 = Field(@RowCursor, "Profil_City")
+ set @v5 = Field(@RowCursor, "Profil_Image")
+
+
+ /* check other criteria here is eligable: Change TRUE with your condition */
+
+ SET @nothingToSee = FALSE
+</script>
+<!-- START Entry Template -->
+<table align="center" border="0" cellpadding="0" cellspacing="0" class="tmp--container-padding" style="background-color:#ffffff;" width="600">
+
+  <tr>
+   <td align="center" class="tmp--full-width" style="padding:10px 0 10px 20px;" width="33.333%"><img class="photo" height="110" src="%%=v(@v5)=%%" style="display:block;" width="140"></td>
+   <td align="center" class="tmp--full-width" style="padding:10px 0 10px 0;" width="66.666%">
+     <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+       <tr>
+        <td align="left" style="color:#4f4f4f;font-family:Arial, sans-serif;font-size:14px;font-style:normal;font-weight:normal;line-height:20px;padding:20px;text-align:lect;vertical-align:top;" width="100%">
+
+        <span style="font-size:16px;">%%=v(@v1)=%%<br>
+          <b>%%=v(@v2)=%% </b>, &nbsp; %%=v(@v3)=%%, &nbsp; %%=v(@v4)=%% &nbsp; <!-- ============================== --><!-- CTA BTN --><!-- ============================== --> </span>
+          <table align="left" class="tmp--full-width" width="100%">
+
+            <tr>
+             <td style="padding:20px 0 10px 0;"><span style="color:#626262;display:inline-block;font-family:Arial, sans-serif;font-size:18px;font-style:normal;font-weight:bold;padding:5px 0 10px 0;"><a href="%%=v(@v5)=%%" style="border-radius:3px;background-color:#D32981;border-top:12px solid #D32981;border-bottom:12px solid #D32981;border-right:18px solid #D32981;border-left:18px solid #D32981;color:#ffffff;display:inline-block;font-family:Arial, sans-serif;font-size:14px;font-style:normal;font-weight:normal;line-height:14px;text-align:center;text-decoration:none;" target="_blank">Person ansehen</a></span></td>
+           </tr>
+
+         </table>
+       </td>
+     </tr>
+
+   </table>
+ </td>
+</tr>
+
+</table>
+
+
+
+
+
+
+<!-- END Entry Template -->
+<script runat="server" language="ampscript">
+  NEXT
+  endif
+  IF(@nothingToSee == TRUE) THEN 
+</script>
+<!-- START NO ENTRIES FOUND.... -->
+<table align="center" border="0" cellpadding="0" cellspacing="0" class="tmp--container" style="background-color:#ffffff;" width="600">
+
+  <tr>
+   <td align="left" style="color:#4f4f4f;font-family:Arial, sans-serif;font-size:16px;font-style:normal;font-weight:normal;line-height:20px;padding:20px;vertical-align:top;" width="100%"><span style="color:#003468;display:inline-block;font-family:Arial, sans-serif;font-size:18px;font-style:normal;font-weight:bold;padding:5px 0 10px 0;">Leider keine passenden Profile gefunden</span><br>
+     vielleicht schaust Du selber einmal mit unserem Spielen Funktion nach passenden Profilen</td>
+   </tr>
+
+ </table>
+ <!-- END NO ENTRIES WHERE FOUND.... -->
+ <script runat="server" language="ampscript">
+  ENDIF
+</script>

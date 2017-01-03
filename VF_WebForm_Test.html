@@ -1,0 +1,14 @@
+
+
+<script>
+var serviceEndpoint = "https://pub.s4.exacttarget.com/u4rmhgvabqo";
+var serviceData = {emailAddr: "n@nabli.com", firstName: "Mike", lastName: "Tyson",age:51, phone:"0041795095890",optIn: true, dateOfBirth: "11/30/1985"};
+
+jQuery.ajax({
+	method: "POST",
+	url: serviceEndpoint,
+	data: serviceData,
+	success: function (serviceResult) { console.log("API Result:" + serviceResult); }
+})
+
+</script>

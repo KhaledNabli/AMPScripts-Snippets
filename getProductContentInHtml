@@ -1,0 +1,39 @@
+$("body").append("<script src='http://localhost/jquery_inlineStyler/jquery.inlineStyler.min.js' type=\"javascript\" />")
+
+
+(function($) {
+    $.extend($.fn, {
+        makeCssInline: function() {
+            this.each(function(idx, el) {
+                var style = el.style;
+                var properties = [];
+                for(var property in style) { 
+                    if($(this).css(property)) {
+                        properties.push(property + ':' + $(this).css(property));
+                    }
+                }
+                this.style.cssText = properties.join(';');
+                $(this).children().makeCssInline();
+            });
+        }
+    });
+}(jQuery));
+
+
+
+
+let productList = $(".product-list-item")
+let resultingHtml = ""
+
+jQuery.each(productList, function(index, elem) { 
+	$(elem).attr("style", "");
+	$(elem).makeCssInline();
+	resultingHtml += "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+	resultingHtml += $(elem).html().trim();
+})
+
+
+copy(resultingHtml);
+
+
+
